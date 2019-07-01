@@ -1,0 +1,109 @@
+#include <stdio.h>
+#include <stdlib.h>
+void leArquivo(const char* fileName)
+{
+
+    int i,N,G,pontos=0;
+    int *S,*R,*aux;
+
+    FILE *fp=fopen(fileName, "r");
+
+    if (!fp)
+    {
+        printf("erro ao ler o arquivo!\n");
+        return;
+    }
+
+    fscanf(fp," %i %i", &N, &G);
+
+    S=(int*)malloc(N*sizeof(int));
+    R=(int*)malloc(N*sizeof(int));
+    aux=(int*)malloc(N*sizeof(int));
+
+    while(feof(fp))
+        for(i=0; i<N; i++)
+            fscanf(fp," %i %i", &S[i], &R[i]);
+
+    for(i=0; i<N; i++)
+    {
+        aux[i]=R[i]-S[i];
+        if(S[i]>R[i])
+        {
+
+            pontos+=3;
+
+        }
+        else if(S[i]==R[i])
+        {
+            pontos++;
+
+        }
+    }
+
+
+    free(R);
+    free(S);
+
+    calculaArquivo(aux, N, G, pontos);
+
+    free(aux);
+    fclose(fp);
+}
+int calculaArquivo(int *aux, int tam, int G, int pontos)
+{
+    int i;
+
+    for(i=0; i<tam; i++)
+    {
+        if(aux[i]==0)
+        {
+            if(G>0)
+            {
+                G--;
+                pontos+=2;
+
+            }
+        }
+    }
+    for (i=0; i<tam; i++)
+    {
+        if (aux[i]>0 && G>= aux[i]+1)
+        {
+            G-=aux[i]+1;
+            pontos+=3;
+        }
+        else if(aux[i]>0 && G==aux[i])
+        {
+            G=0;
+            pontos++;
+        }
+    }
+
+    imprimeArquivo(pontos);
+    free(aux);
+    return pontos;
+}
+void imprimeArquivo(int pontos)
+{
+
+    FILE *fp= fopen("resultado.sol", "w");
+
+    if (!fp)
+    {
+        printf("erro ao escrever no arquivo!\n");
+        return;
+    }
+
+    fprintf(fp, "%d", pontos);
+    fclose(fp);
+
+
+}
+int main()
+{
+    char fileName[] = "jogos.in";
+    leArquivo(fileName);
+
+    return 0;
+}
+
