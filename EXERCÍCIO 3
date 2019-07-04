@@ -1,0 +1,48 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+typedef struct Palavra {
+    char palavra[100];
+    int vogal;
+    int consoante;
+};
+
+struct Palavra *leArquivo(const char *palavra){
+  struct Palavra p;
+  p.vogal;
+  p.consoante;
+  int i = 0;
+  struct Palavra *palavras = malloc(100*sizeof(struct Palavra));
+
+  FILE *fp = fopen("arquivo.txt", "r");
+
+
+ while(fscanf(fp,"%s",palavras) >= 1){
+    fscanf(fp, "%s", palavras);
+    strcpy(palavra, &p.palavras[i]);
+    if(palavras[i] == 'a' || palavras[i] == 'e' ||  palavras[i] == 'i' || palavras == 'o' ||  palavras== 'u'){
+       p.vogal++;}
+    else{
+       p.consoante++;}
+
+ fclose(fp);
+  return palavras;
+}
+
+void imprimePalavras(const struct Palavra*palavras, int tam){
+
+    int i = 0;
+
+  for(i = 0; i < tam; i++)
+      printf("%s %d %d", palavras[i].palavra, palavras[i].vogal, palavras[i].consoante);
+}
+
+int main()
+{
+  leArquivo("arquivo.txt");
+  imprimePalavras(leArquivo("arquivo.txt"),100);
+
+
+ return 0;
+}
+
